@@ -1,6 +1,6 @@
 import pg from 'pg';
 
-const { Pool } = pg();
+const { Pool } = pg;
 
 function createConnection() {
 	if (process.env.NODE_ENV === 'production') {

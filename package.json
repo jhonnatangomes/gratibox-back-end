@@ -5,7 +5,10 @@
   "description": "An API for an application that delivers healthy products to customers",
   "main": "index.js",
   "scripts": {
-    "test": "npx jest"
+    "start": "NODE_ENV=production node ./src/server.js",
+    "start:development": "NODE_ENV=development npx nodemon ./src/server.js",
+    "start:test": "npx jest --watch -i",
+    "test": "npx jest -i"
   },
   "keywords": [],
   "author": "jhonnatangomes",
@@ -15,8 +18,10 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "^2.25.3",
+    "faker": "^5.5.3",
     "husky": "^7.0.4",
     "jest": "^27.3.1",
+    "prettier": "^2.4.1",
     "supertest": "^6.1.6"
   },
   "dependencies": {
@@ -26,6 +31,7 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "joi": "^17.4.2",
     "pg": "^8.7.1"
   }
 }
