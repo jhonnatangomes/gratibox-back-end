@@ -8,7 +8,7 @@
     "start": "NODE_ENV=production node ./src/server.js",
     "start:development": "NODE_ENV=development npx nodemon ./src/server.js",
     "start:test": "npx jest --watch -i",
-    "test": "npx jest"
+    "test": "npx jest -i"
   },
   "keywords": [],
   "author": "jhonnatangomes",
