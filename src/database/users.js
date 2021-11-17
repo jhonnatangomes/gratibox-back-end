@@ -11,4 +11,8 @@ function insertUser(name, email, password) {
 	);
 }
 
-export { getUserByEmail, insertUser };
+function deleteUsers() {
+	return connection.query('DELETE FROM users;');
+}
+
+export { getUserByEmail, insertUser, deleteUsers };
