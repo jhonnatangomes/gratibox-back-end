@@ -1,6 +1,6 @@
 {
   "name": "gratibox_back_end",
-  "type":"module",
+  "type": "module",
   "version": "1.0.0",
   "description": "An API for an application that delivers healthy products to customers",
   "main": "index.js",
@@ -12,10 +12,18 @@
   "license": "ISC",
   "devDependencies": {
     "dotenv": "^10.0.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "husky": "^7.0.4",
     "jest": "^27.3.1",
     "supertest": "^6.1.6"
   },
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "babel-jest": "^27.3.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "pg": "^8.7.1"
