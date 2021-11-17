@@ -11,7 +11,6 @@
   "author": "jhonnatangomes",
   "license": "ISC",
   "devDependencies": {
-    "dotenv": "^10.0.0",
     "eslint": "^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "8.3.0",
@@ -25,6 +24,7 @@
     "@babel/preset-env": "^7.16.4",
     "babel-jest": "^27.3.1",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "pg": "^8.7.1"
   }
