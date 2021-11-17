@@ -1,5 +1,6 @@
 {
   "name": "gratibox_back_end",
+  "type":"module",
   "version": "1.0.0",
   "description": "An API for an application that delivers healthy products to customers",
   "main": "index.js",
