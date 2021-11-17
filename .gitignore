@@ -1,0 +1,11 @@
+#environment variables
+.env
+.env.test
+.env.development
+
+#node_modules
+/node_modules
+
+#tests
+/tests
+

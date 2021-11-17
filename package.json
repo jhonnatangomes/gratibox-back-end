@@ -1,0 +1,22 @@
+{
+  "name": "gratibox_back_end",
+  "version": "1.0.0",
+  "description": "An API for an application that delivers healthy products to customers",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx jest"
+  },
+  "keywords": [],
+  "author": "jhonnatangomes",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "jest": "^27.3.1",
+    "supertest": "^6.1.6"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^8.7.1"
+  }
+}
