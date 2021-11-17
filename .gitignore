@@ -9,13 +9,6 @@
 #tests
 /tests
 
-#eslint
-.eslintignore
-.eslintrc.json
-
-#prettier
-.prettierrc.json
-
 #husky
 .husky
 
