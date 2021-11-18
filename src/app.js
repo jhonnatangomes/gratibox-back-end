@@ -4,12 +4,17 @@ import cors from 'cors';
 
 import signUp from './controllers/signUp.js';
 import login from './controllers/login.js';
+import subscribeToPlan from './controllers/plans.js';
+
+import auth from './middlewares/auth.js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use('/plans', auth);
 
 app.post('/sign-up', signUp);
 app.post('/login', login);
+app.post('/plans', subscribeToPlan);
 
 export default app;
