@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
 const schema = Joi.object({
-    name: Joi.string().required(),
     email: Joi.string()
         .email({
             minDomainSegments: 2,
@@ -9,9 +8,8 @@ const schema = Joi.object({
         })
         .required(),
     password: Joi.string().min(3).required(),
-    repeatPassword: Joi.ref('password'),
 });
 
-export default function validateSignUp(body) {
+export default function validateLogin(body) {
     return schema.validate(body);
 }

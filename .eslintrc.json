@@ -4,7 +4,8 @@
         "node": true
     },
     "extends": [
-        "airbnb-base"
+        "airbnb-base",
+        "prettier"
     ],
     "parserOptions": {
         "ecmaVersion": 12,
@@ -23,6 +24,6 @@
                 "allowIndentationTabs": true
             }
         ],
-        "indent": ["error", "tab"]
+        "indent": ["error", 4]
     }
 }
