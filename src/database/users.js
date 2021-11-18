@@ -4,6 +4,10 @@ function getUserByEmail(email) {
     return connection.query('SELECT * FROM users WHERE email = $1', [email]);
 }
 
+function getUserByName(name) {
+    return connection.query('SELECT * FROM users WHERE name = $1', [name]);
+}
+
 function insertUser(name, email, password) {
     return connection.query(
         'INSERT INTO users (name, email, password) VALUES ($1, $2, $3)',
@@ -15,4 +19,4 @@ function deleteUsers() {
     return connection.query('DELETE FROM users;');
 }
 
-export { getUserByEmail, insertUser, deleteUsers };
+export { getUserByEmail, getUserByName, insertUser, deleteUsers };
