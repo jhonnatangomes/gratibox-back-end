@@ -14,8 +14,17 @@ function getSessionsByUserEmail(email) {
     );
 }
 
+function getSessionsByToken(token) {
+    return connection.query('SELECT * FROM sessions WHERE token = $1', [token]);
+}
+
 function deleteSessions() {
     return connection.query('DELETE FROM sessions');
 }
 
-export { insertSession, getSessionsByUserEmail, deleteSessions };
+export {
+    insertSession,
+    getSessionsByUserEmail,
+    getSessionsByToken,
+    deleteSessions,
+};
