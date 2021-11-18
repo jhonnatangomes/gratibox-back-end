@@ -1,21 +1,5 @@
 import connection from './connection.js';
 
-function checkPlan(planName) {
-    return connection.query('SELECT * FROM plans WHERE type = $1', [planName]);
-}
-
-function checkDeliveryDate(deliveryDate) {
-    return connection.query('SELECT * FROM delivery_dates WHERE date = $1', [
-        deliveryDate,
-    ]);
-}
-
-function checkProducts(productsName) {
-    return connection.query('SELECT * FROM products WHERE name = $1', [
-        productsName,
-    ]);
-}
-
 function getCity(cityName) {
     return connection.query('SELECT * FROM cities WHERE name = $1', [cityName]);
 }
@@ -33,11 +17,4 @@ function getAdress(adress, zipcode, cityId, stateId) {
     );
 }
 
-export {
-    checkPlan,
-    checkDeliveryDate,
-    checkProducts,
-    getCity,
-    getState,
-    getAdress,
-};
+export { getCity, getState, getAdress };
