@@ -16,7 +16,6 @@ import { encryptPassword } from './factories/loginFactory.js';
 import tokenFactory from './factories/tokenFactory.js';
 import stringFactory from './factories/stringFactory.js';
 import { planFactory } from './factories/planFactory.js';
-import numberFactory from './factories/numberFactory.js';
 
 afterAll(async () => {
     await clearDatabase();
