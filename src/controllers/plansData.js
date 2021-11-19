@@ -4,7 +4,6 @@ import {
     getAllProducts,
     getAllDeliveryDates,
 } from '../database/plans.js';
-import deliveryDateValidation from '../validations/deliveryDateValidation.js';
 
 async function getPlansAndProducts(req, res) {
     try {
@@ -18,12 +17,8 @@ async function getPlansAndProducts(req, res) {
 }
 
 async function getDeliveryDates(req, res) {
-    const { planType } = req.headers;
-    const validation = deliveryDateValidation(planType);
-    if (validation.error) {
-        return res.status(400).send(validation.error.details[0].message);
-    }
     try {
+        const { planType } = req.params;
         const deliveryDates = await getAllDeliveryDates(planType);
         return res.send(deliveryDates.rows);
     } catch (error) {

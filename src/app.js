@@ -21,6 +21,6 @@ app.post('/sign-up', signUp);
 app.post('/login', login);
 app.post('/plans', subscribeToPlan);
 app.get('/plans/info', getPlansAndProducts);
-app.get('/plans/dates', getDeliveryDates);
+app.get('/plans/:planType/dates', getDeliveryDates);
 
 export default app;
