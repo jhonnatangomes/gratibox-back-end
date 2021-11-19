@@ -9,6 +9,7 @@ import {
     getPlansAndProducts,
     getDeliveryDates,
 } from './controllers/plansData.js';
+import tokenAuth from './controllers/tokenAuth.js';
 
 import auth from './middlewares/auth.js';
 
@@ -22,5 +23,6 @@ app.post('/login', login);
 app.post('/plans', subscribeToPlan);
 app.get('/plans/info', getPlansAndProducts);
 app.get('/plans/:planType/dates', getDeliveryDates);
+app.post('/token', tokenAuth);
 
 export default app;
