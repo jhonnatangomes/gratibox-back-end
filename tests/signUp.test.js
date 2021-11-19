@@ -2,19 +2,19 @@ import app from '../src/app.js';
 import supertest from 'supertest';
 
 import endConnection from '../src/database/endConnection.js';
-import { deleteUsers } from '../src/database/users.js';
+import clearDatabase from '../src/database/clearDatabase.js';
 
 import stringFactory from './factories/stringFactory.js';
 import numberFactory from './factories/numberFactory.js';
 import signUpFactory from './factories/signUpFactory.js';
 
 afterAll(async () => {
-    await deleteUsers();
+    await clearDatabase();
     endConnection();
 });
 
 beforeAll(async () => {
-    await deleteUsers();
+    await clearDatabase();
 });
 
 describe('post /sign-up', () => {
