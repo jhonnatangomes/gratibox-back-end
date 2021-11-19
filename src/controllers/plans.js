@@ -1,18 +1,20 @@
 import databaseError from '../helpers/databaseError.js';
 import validatePlan from '../validations/planValidation.js';
 import {
+    getPlan,
+    getDeliveryDate,
+    getProducts,
+    createPlan,
+    createPlanProducts,
+} from '../database/plans.js';
+import {
     getCity,
     getState,
     getAdress,
     insertCity,
     insertState,
     insertAdress,
-    getPlanId,
-    getDeliveryDateId,
-    getProductsId,
-    createPlan,
-    createPlanProducts,
-} from '../database/plans.js';
+} from '../database/adresses.js';
 import { getUserIdByToken } from '../database/sessions.js';
 
 async function subscribeToPlan(req, res) {
@@ -20,34 +22,52 @@ async function subscribeToPlan(req, res) {
     if (validation.error) {
         return res.status(400).send(validation.error.details[0].message);
     }
-    const { deliveryInfo: adress } = req.body;
-    const { city, state } = adress;
+    const { deliveryInfo } = req.body;
+    const { city, state } = deliveryInfo;
     const token = req.headers.authorization?.replace('Bearer ', '');
 
     try {
+        let cityId;
         const cityResult = await getCity(city);
         if (!cityResult.rowCount) {
-            await insertCity(city);
+            cityId = (await insertCity(city)).rows[0].id;
+        } else {
+            cityId = cityResult.rows[0].id;
         }
 
+        let stateId;
         const stateResult = await getState(state);
         if (!stateResult.rowCount) {
-            await insertState(state);
+            stateId = (await insertState(state)).rows[0].id;
+        } else {
+            stateId = stateResult.rows[0].id;
         }
 
         let adressId;
-        const adressResult = await getAdress(adress);
+        const adressResult = await getAdress(
+            deliveryInfo.adress,
+            deliveryInfo.zipcode,
+            cityId,
+            stateId
+        );
         if (!adressResult.rowCount) {
-            adressId = (await insertAdress(adress)).rows[0].id;
+            adressId = (
+                await insertAdress(
+                    deliveryInfo.adress,
+                    deliveryInfo.zipcode,
+                    cityId,
+                    stateId
+                )
+            ).rows[0].id;
         } else {
             adressId = adressResult.rows[0].id;
         }
 
         const userId = (await getUserIdByToken(token)).rows[0].id;
-        const planId = (await getPlanId(req.body.planType)).rows[0].id;
-        const deliveryDateId = (await getDeliveryDateId(req.body.deliveryDate))
+        const planId = (await getPlan(req.body.planType)).rows[0].id;
+        const deliveryDateId = (await getDeliveryDate(req.body.deliveryDate))
             .rows[0].id;
-        const productId = (await getProductsId(req.body.products)).rows[0].id;
+        const productId = (await getProducts(req.body.products)).rows[0].id;
 
         await createPlan(userId, planId, deliveryDateId, adressId);
         await createPlanProducts(userId, productId);

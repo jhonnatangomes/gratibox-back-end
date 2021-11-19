@@ -5,5 +5,5 @@ const schema = Joi.object({
 });
 
 export default function validateToken(token) {
-    return schema.validate(token);
+    return schema.validate({ token });
 }

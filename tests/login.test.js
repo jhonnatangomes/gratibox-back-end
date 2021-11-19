@@ -2,11 +2,9 @@ import app from '../src/app.js';
 import supertest from 'supertest';
 
 import endConnection from '../src/database/endConnection.js';
-import { deleteUsers, insertUser } from '../src/database/users.js';
-import {
-    deleteSessions,
-    getSessionsByUserEmail,
-} from '../src/database/sessions.js';
+import { insertUser } from '../src/database/users.js';
+import { getSessionsByUserEmail } from '../src/database/sessions.js';
+import clearDatabase from '../src/database/clearDatabase.js';
 
 import signUpFactory from './factories/signUpFactory.js';
 import numberFactory from './factories/numberFactory.js';
@@ -14,14 +12,12 @@ import stringFactory from './factories/stringFactory.js';
 import { emailFactory, encryptPassword } from './factories/loginFactory.js';
 
 afterAll(async () => {
-    await deleteSessions();
-    await deleteUsers();
+    await clearDatabase();
     endConnection();
 });
 
 beforeAll(async () => {
-    await deleteSessions();
-    await deleteUsers();
+    await clearDatabase();
 });
 
 describe('post /login', () => {

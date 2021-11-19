@@ -1,39 +1,43 @@
 import connection from './connection.js';
 
-function getCity(cityName) {
-    return connection.query('SELECT * FROM cities WHERE name = $1', [cityName]);
-}
-
-function getState(stateName) {
-    return connection.query('SELECT * FROM states WHERE name = $1', [
-        stateName,
-    ]);
-}
-
-function getAdress(adress, zipcode, cityId, stateId) {
+function insertPlan(planType) {
     return connection.query(
-        'SELECT * FROM adresses WHERE adress = $1 AND zipcode = $2 AND city_id = $3 AND state_id = $4',
-        [adress, zipcode, cityId, stateId]
+        'INSERT INTO plans (type) VALUES ($1) RETURNING id',
+        [planType]
     );
 }
 
-function insertCity(cityName) {
-    return connection.query('INSERT INTO cities (name) VALUES ($1)', [
-        cityName,
-    ]);
-}
-
-function insertState(stateName) {
-    return connection.query('INSERT INTO states (name) VALUES ($1)', [
-        stateName,
-    ]);
-}
-
-function insertAdress({ adress, zipcode, cityId, stateId }) {
+function insertDeliveryDate(planId, deliveryDate) {
     return connection.query(
-        'INSERT INTO adresses (name, zipcode, city_id, state_id) VALUES ($1, $2, $3, $4) RETURNING id',
-        [adress, zipcode, cityId, stateId]
+        'INSERT INTO delivery_dates (plan_id, date) VALUES ($1, $2)',
+        [planId, deliveryDate]
     );
+}
+
+function insertProducts(products) {
+    return connection.query('INSERT INTO products (name) VALUES ($1)', [
+        products,
+    ]);
+}
+
+function deletePlans() {
+    return connection.query('DELETE FROM plans');
+}
+
+function deleteDeliveryDates() {
+    return connection.query('DELETE FROM delivery_dates');
+}
+
+function deleteProducts() {
+    return connection.query('DELETE FROM products');
+}
+
+function deleteUsersPlans() {
+    return connection.query('DELETE FROM users_plans');
+}
+
+function deleteUsersProducts() {
+    return connection.query('DELETE FROM users_products');
 }
 
 function createPlan(userId, planId, deliveryDateId, adressId) {
@@ -50,32 +54,47 @@ function createPlanProducts(userId, productId) {
     );
 }
 
-function getPlanId(planType) {
-    return connection.query('SELECT id FROM plans WHERE type = $1', [planType]);
+function getPlan(planType) {
+    return connection.query('SELECT * FROM plans WHERE type = $1', [planType]);
 }
 
-function getDeliveryDateId(deliveryDate) {
-    return connection.query('SELECT id FROM delivery_dates WHERE date = $1', [
+function getUsersProducts(productsName) {
+    return connection.query(
+        `
+        SELECT products.*, users_products.user_id FROM
+        users_products JOIN products
+        ON users_products.product_id = products.id
+        WHERE products.name = $1
+    `,
+        [productsName]
+    );
+}
+
+function getDeliveryDate(deliveryDate) {
+    return connection.query('SELECT * FROM delivery_dates WHERE date = $1', [
         deliveryDate,
     ]);
 }
 
-function getProductsId(productsName) {
-    return connection.query('SELECT id FROM products WHERE name = $1', [
+function getProducts(productsName) {
+    return connection.query('SELECT * FROM products WHERE name = $1', [
         productsName,
     ]);
 }
 
 export {
-    getCity,
-    getState,
-    getAdress,
-    insertCity,
-    insertState,
-    insertAdress,
+    insertPlan,
+    insertDeliveryDate,
+    insertProducts,
     createPlan,
     createPlanProducts,
-    getPlanId,
-    getDeliveryDateId,
-    getProductsId,
+    getPlan,
+    getUsersProducts,
+    getDeliveryDate,
+    getProducts,
+    deletePlans,
+    deleteDeliveryDates,
+    deleteProducts,
+    deleteUsersPlans,
+    deleteUsersProducts,
 };
