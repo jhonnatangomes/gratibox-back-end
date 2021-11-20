@@ -3,7 +3,7 @@ import Joi from 'joi';
 const schema = Joi.object({
     planType: Joi.string().required(),
     deliveryDate: Joi.string().required(),
-    products: Joi.string().required(),
+    products: Joi.array().items(Joi.string()),
     deliveryInfo: {
         name: Joi.string().required(),
         adress: Joi.string().required(),

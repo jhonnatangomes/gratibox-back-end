@@ -76,32 +76,11 @@ function getDeliveryDate(deliveryDate) {
     ]);
 }
 
-function getProducts(productsName) {
+function getProduct(productName) {
     return connection.query('SELECT * FROM products WHERE name = $1', [
-        productsName,
+        productName,
     ]);
 }
-
-function getAllPlans() {
-    return connection.query('SELECT * FROM plans');
-}
-
-function getAllDeliveryDates(planType) {
-    return connection.query(
-        `
-        SELECT delivery_dates.* FROM
-        delivery_dates JOIN plans
-        ON plans.id = delivery_dates.plan_id
-        WHERE plans.type = $1
-    `,
-        [planType]
-    );
-}
-
-function getAllProducts() {
-    return connection.query('SELECT * FROM products');
-}
-
 export {
     insertPlan,
     insertDeliveryDate,
@@ -111,13 +90,10 @@ export {
     getPlan,
     getUsersProducts,
     getDeliveryDate,
-    getProducts,
+    getProduct,
     deletePlans,
     deleteDeliveryDates,
     deleteProducts,
     deleteUsersPlans,
     deleteUsersProducts,
-    getAllPlans,
-    getAllDeliveryDates,
-    getAllProducts,
 };

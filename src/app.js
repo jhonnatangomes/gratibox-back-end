@@ -5,10 +5,6 @@ import cors from 'cors';
 import signUp from './controllers/signUp.js';
 import login from './controllers/login.js';
 import subscribeToPlan from './controllers/plans.js';
-import {
-    getPlansAndProducts,
-    getDeliveryDates,
-} from './controllers/plansData.js';
 import tokenAuth from './controllers/tokenAuth.js';
 
 import auth from './middlewares/auth.js';
@@ -21,8 +17,6 @@ app.use('/plans', auth);
 app.post('/sign-up', signUp);
 app.post('/login', login);
 app.post('/plans', subscribeToPlan);
-app.get('/plans/info', getPlansAndProducts);
-app.get('/plans/:planType/dates', getDeliveryDates);
 app.post('/token', tokenAuth);
 
 export default app;
