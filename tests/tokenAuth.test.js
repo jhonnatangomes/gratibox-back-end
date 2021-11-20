@@ -9,7 +9,6 @@ import { insertUser } from '../src/database/users.js';
 import signUpFactory from './factories/signUpFactory.js';
 import { encryptPassword } from './factories/loginFactory.js';
 import tokenFactory from './factories/tokenFactory.js';
-import stringFactory from './factories/stringFactory.js';
 
 afterAll(async () => {
     await clearDatabase();

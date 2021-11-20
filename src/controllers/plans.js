@@ -24,7 +24,7 @@ async function subscribeToPlan(req, res) {
     }
     const { deliveryInfo } = req.body;
     const { city, state } = deliveryInfo;
-    const token = req.headers.authorization?.replace('Bearer ', '');
+    const token = req.headers.authorization.replace('Bearer ', '');
 
     try {
         let cityId;
@@ -70,7 +70,8 @@ async function subscribeToPlan(req, res) {
         await createPlan(userId, planId, deliveryDateId, adressId);
 
         req.body.products.forEach(async (product) => {
-            const productId = (await getProduct(product)).rows[0].id;
+            const productResult = await getProduct(product);
+            const productId = productResult.rows[0].id;
             await createPlanProducts(userId, productId);
         });
 

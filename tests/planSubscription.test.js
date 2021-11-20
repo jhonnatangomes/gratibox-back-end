@@ -1,5 +1,6 @@
 import app from '../src/app.js';
 import supertest from 'supertest';
+import connection from '../src/database/connection.js';
 
 import endConnection from '../src/database/endConnection.js';
 import {
@@ -7,7 +8,7 @@ import {
     insertDeliveryDate,
     insertProducts,
     getPlan,
-    getUsersProducts,
+    getUserProducts,
 } from '../src/database/plans.js';
 import { getCity, getState, getAdress } from '../src/database/adresses.js';
 import { insertUser } from '../src/database/users.js';
@@ -22,9 +23,9 @@ import stringFactory from './factories/stringFactory.js';
 
 const plan = planFactory();
 const token = tokenFactory();
+let userId;
 
 afterAll(async () => {
-    await clearDatabase();
     endConnection();
 });
 
@@ -32,7 +33,7 @@ beforeAll(async () => {
     await clearDatabase();
     const signUpBody = signUpFactory();
 
-    const userId = (
+    userId = (
         await insertUser(
             signUpBody.name,
             signUpBody.email,
@@ -91,9 +92,12 @@ describe('post /plans', () => {
             state.rows[0].id
         );
         const planSearch = await getPlan(plan.planType);
-        const usersProducts = await getUsersProducts(plan.products[0]);
-        const usersProducts2 = await getUsersProducts(plan.products[1]);
-        const usersProducts3 = await getUsersProducts(plan.products[2]);
+        const userProducts = await getUserProducts(userId);
+
+        const teste = await connection.query('SELECT * FROM users_products');
+        console.log(userId);
+        console.log(teste.rows);
+        console.log(userProducts.rows);
 
         expect(result.status).toEqual(200);
         expect(city.rows[0].name).toEqual(plan.deliveryInfo.city);
@@ -101,28 +105,26 @@ describe('post /plans', () => {
         expect(adress.rows[0].adress).toEqual(plan.deliveryInfo.adress);
         expect(adress.rows[0].zipcode).toEqual(plan.deliveryInfo.zipcode);
         expect(planSearch.rowCount).toEqual(1);
-        expect(usersProducts.rowCount).toEqual(1);
-        expect(usersProducts2.rowCount).toEqual(1);
-        expect(usersProducts3.rowCount).toEqual(1);
+        expect(userProducts.rowCount).toEqual(3);
     });
 
-    it('returns 200 and doesnt insert adress if it already exists', async () => {
-        const result = await supertest(app)
-            .post('/plans')
-            .send(plan)
-            .set('Authorization', `Bearer ${token}`);
+    // it('returns 200 and doesnt insert adress if it already exists', async () => {
+    //     const result = await supertest(app)
+    //         .post('/plans')
+    //         .send(plan)
+    //         .set('Authorization', `Bearer ${token}`);
 
-        const city = await getCity(plan.deliveryInfo.city);
-        const state = await getState(plan.deliveryInfo.state);
-        const adress = await getAdress(
-            plan.deliveryInfo.adress,
-            plan.deliveryInfo.zipcode,
-            city.rows[0].id,
-            state.rows[0].id
-        );
-        expect(result.status).toEqual(200);
-        expect(city.rowCount).toEqual(1);
-        expect(state.rowCount).toEqual(1);
-        expect(adress.rowCount).toEqual(1);
-    });
+    //     const city = await getCity(plan.deliveryInfo.city);
+    //     const state = await getState(plan.deliveryInfo.state);
+    //     const adress = await getAdress(
+    //         plan.deliveryInfo.adress,
+    //         plan.deliveryInfo.zipcode,
+    //         city.rows[0].id,
+    //         state.rows[0].id
+    //     );
+    //     expect(result.status).toEqual(200);
+    //     expect(city.rowCount).toEqual(1);
+    //     expect(state.rowCount).toEqual(1);
+    //     expect(adress.rowCount).toEqual(1);
+    // });
 });

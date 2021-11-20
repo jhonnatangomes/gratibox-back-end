@@ -4,18 +4,18 @@ faker.locale = 'pt_BR';
 function planFactory() {
     return {
         planType: faker.random.alphaNumeric(10),
-        deliveryDate: faker.datatype.string(),
+        deliveryDate: faker.random.alphaNumeric(10),
         products: [
-            faker.datatype.string(),
-            faker.datatype.string(),
-            faker.datatype.string(),
+            faker.random.alphaNumeric(10),
+            faker.random.alphaNumeric(10),
+            faker.random.alphaNumeric(10),
         ],
         deliveryInfo: {
-            name: faker.datatype.string(),
-            adress: faker.datatype.string(),
-            zipcode: faker.datatype.string(),
-            city: faker.datatype.string(),
-            state: faker.datatype.string(),
+            name: faker.random.alphaNumeric(10),
+            adress: faker.random.alphaNumeric(10),
+            zipcode: faker.random.alphaNumeric(10),
+            city: faker.random.alphaNumeric(10),
+            state: faker.random.alphaNumeric(10),
         },
     };
 }
