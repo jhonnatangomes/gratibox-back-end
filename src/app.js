@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import signUp from './controllers/signUp.js';
 import login from './controllers/login.js';
-import subscribeToPlan from './controllers/plans.js';
+import { subscribeToPlan, getUserPlan } from './controllers/plans.js';
 import tokenAuth from './controllers/tokenAuth.js';
 
 import auth from './middlewares/auth.js';
@@ -17,6 +17,7 @@ app.use('/plans', auth);
 app.post('/sign-up', signUp);
 app.post('/login', login);
 app.post('/plans', subscribeToPlan);
+app.get('/plans', getUserPlan);
 app.post('/token', tokenAuth);
 
 export default app;

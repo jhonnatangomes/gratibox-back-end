@@ -6,6 +6,8 @@ import {
     getProduct,
     createPlan,
     createPlanProducts,
+    getUserProducts,
+    getPlanInfo,
 } from '../database/plans.js';
 import {
     getCity,
@@ -16,6 +18,7 @@ import {
     insertAdress,
 } from '../database/adresses.js';
 import { getUserIdByToken } from '../database/sessions.js';
+import nextDeliveries from '../helpers/nextDeliveries.js';
 
 async function subscribeToPlan(req, res) {
     const validation = validatePlan(req.body);
@@ -24,7 +27,7 @@ async function subscribeToPlan(req, res) {
     }
     const { deliveryInfo } = req.body;
     const { city, state } = deliveryInfo;
-    const token = req.headers.authorization.replace('Bearer ', '');
+    const token = req.headers.authorization?.replace('Bearer ', '');
 
     try {
         let cityId;
@@ -69,11 +72,13 @@ async function subscribeToPlan(req, res) {
             .rows[0].id;
         await createPlan(userId, planId, deliveryDateId, adressId);
 
-        req.body.products.forEach(async (product) => {
-            const productResult = await getProduct(product);
-            const productId = productResult.rows[0].id;
-            await createPlanProducts(userId, productId);
-        });
+        await Promise.all(
+            req.body.products.map(async (product) => {
+                const productResult = await getProduct(product);
+                const productId = productResult.rows[0].id;
+                await createPlanProducts(userId, productId);
+            })
+        );
 
         return res.send();
     } catch (error) {
@@ -81,4 +86,27 @@ async function subscribeToPlan(req, res) {
     }
 }
 
-export default subscribeToPlan;
+async function getUserPlan(req, res) {
+    try {
+        const token = req.headers.authorization?.replace('Bearer ', '');
+        const userId = (await getUserIdByToken(token)).rows[0].id;
+
+        const productsResult = await getUserProducts(userId);
+        const planResult = await getPlanInfo(userId);
+        const nextDates = nextDeliveries(
+            planResult.rows[0].delivery_date,
+            planResult.rows[0].plan_type
+        );
+
+        return res.send({
+            planType: planResult.rows[0].plan_type,
+            subscriptionDate: planResult.rows[0].subscription_date,
+            deliveryDates: nextDates,
+            selectedProducts: productsResult.rows,
+        });
+    } catch (error) {
+        return databaseError(res, error);
+    }
+}
+
+export { subscribeToPlan, getUserPlan };

@@ -1,6 +1,5 @@
 import app from '../src/app.js';
 import supertest from 'supertest';
-import connection from '../src/database/connection.js';
 
 import endConnection from '../src/database/endConnection.js';
 import {
@@ -26,6 +25,7 @@ const token = tokenFactory();
 let userId;
 
 afterAll(async () => {
+    await clearDatabase();
     endConnection();
 });
 
@@ -94,11 +94,6 @@ describe('post /plans', () => {
         const planSearch = await getPlan(plan.planType);
         const userProducts = await getUserProducts(userId);
 
-        const teste = await connection.query('SELECT * FROM users_products');
-        console.log(userId);
-        console.log(teste.rows);
-        console.log(userProducts.rows);
-
         expect(result.status).toEqual(200);
         expect(city.rows[0].name).toEqual(plan.deliveryInfo.city);
         expect(state.rows[0].name).toEqual(plan.deliveryInfo.state);
@@ -108,23 +103,23 @@ describe('post /plans', () => {
         expect(userProducts.rowCount).toEqual(3);
     });
 
-    // it('returns 200 and doesnt insert adress if it already exists', async () => {
-    //     const result = await supertest(app)
-    //         .post('/plans')
-    //         .send(plan)
-    //         .set('Authorization', `Bearer ${token}`);
+    it('returns 200 and doesnt insert adress if it already exists', async () => {
+        const result = await supertest(app)
+            .post('/plans')
+            .send(plan)
+            .set('Authorization', `Bearer ${token}`);
 
-    //     const city = await getCity(plan.deliveryInfo.city);
-    //     const state = await getState(plan.deliveryInfo.state);
-    //     const adress = await getAdress(
-    //         plan.deliveryInfo.adress,
-    //         plan.deliveryInfo.zipcode,
-    //         city.rows[0].id,
-    //         state.rows[0].id
-    //     );
-    //     expect(result.status).toEqual(200);
-    //     expect(city.rowCount).toEqual(1);
-    //     expect(state.rowCount).toEqual(1);
-    //     expect(adress.rowCount).toEqual(1);
-    // });
+        const city = await getCity(plan.deliveryInfo.city);
+        const state = await getState(plan.deliveryInfo.state);
+        const adress = await getAdress(
+            plan.deliveryInfo.adress,
+            plan.deliveryInfo.zipcode,
+            city.rows[0].id,
+            state.rows[0].id
+        );
+        expect(result.status).toEqual(200);
+        expect(city.rowCount).toEqual(1);
+        expect(state.rowCount).toEqual(1);
+        expect(adress.rowCount).toEqual(1);
+    });
 });
