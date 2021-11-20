@@ -5,12 +5,11 @@ import {
     getAllDeliveryDates,
 } from '../database/plans.js';
 
-async function getPlansAndProducts(req, res) {
+async function getPlans(req, res) {
     try {
         const plans = await getAllPlans();
-        const products = await getAllProducts();
 
-        return res.send({ plans: plans.rows, products: products.rows });
+        return res.send(plans.rows);
     } catch (error) {
         return databaseError(res, error);
     }
@@ -26,4 +25,13 @@ async function getDeliveryDates(req, res) {
     }
 }
 
-export { getPlansAndProducts, getDeliveryDates };
+async function getProducts(req, res) {
+    try {
+        const products = await getAllProducts();
+        return res.send(products.rows);
+    } catch (error) {
+        return databaseError(res, error);
+    }
+}
+
+export { getPlans, getDeliveryDates, getProducts };

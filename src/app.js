@@ -6,8 +6,9 @@ import signUp from './controllers/signUp.js';
 import login from './controllers/login.js';
 import subscribeToPlan from './controllers/plans.js';
 import {
-    getPlansAndProducts,
+    getPlans,
     getDeliveryDates,
+    getProducts,
 } from './controllers/plansData.js';
 import tokenAuth from './controllers/tokenAuth.js';
 
@@ -21,8 +22,9 @@ app.use('/plans', auth);
 app.post('/sign-up', signUp);
 app.post('/login', login);
 app.post('/plans', subscribeToPlan);
-app.get('/plans/info', getPlansAndProducts);
+app.get('/plans', getPlans);
 app.get('/plans/:planType/dates', getDeliveryDates);
+app.get('/plans/products', getProducts);
 app.post('/token', tokenAuth);
 
 export default app;

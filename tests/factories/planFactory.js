@@ -3,7 +3,7 @@ faker.locale = 'pt_BR';
 
 function planFactory() {
     return {
-        planType: faker.random.alphaNumeric(),
+        planType: faker.random.alphaNumeric(10),
         deliveryDate: faker.datatype.string(),
         products: faker.datatype.string(),
         deliveryInfo: {

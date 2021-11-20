@@ -42,63 +42,49 @@ beforeAll(async () => {
     await insertProducts(plan.products);
 });
 
-describe('post /plans/info', () => {
+describe('get /plans', () => {
     it('returns 401 when no token is sent', async () => {
-        const result = await supertest(app).get('/plans/info');
+        const result = await supertest(app).get('/plans');
         expect(result.status).toEqual(401);
     });
 
     it('returns 400 when a non-token is sent', async () => {
         const result = await supertest(app)
-            .get('/plans/info')
+            .get('/plans')
             .set('Authorization', `Bearer ${stringFactory()}`);
         expect(result.status).toEqual(400);
     });
 
     it('returns 401 when a non-existent uuid is sent', async () => {
         const result = await supertest(app)
-            .get('/plans/info')
+            .get('/plans')
             .set('Authorization', `Bearer ${tokenFactory()}`);
         expect(result.status).toEqual(401);
     });
 
     it('returns 200 and an object containing plans and products', async () => {
         const result = await supertest(app)
-            .get('/plans/info')
+            .get('/plans')
             .set('Authorization', `Bearer ${token}`);
         expect(result.status).toEqual(200);
-        expect(result.body).toHaveProperty('plans');
-        expect(result.body).toHaveProperty('products');
-        expect(result.body.plans.length).toEqual(1);
-        expect(result.body.products.length).toEqual(1);
+        expect(result.body.length).toEqual(1);
     });
 });
 
-describe('post /plans/dates', () => {
-    it('returns 401 when no token is sent', async () => {
-        const result = await supertest(app).get(
-            `/plans/${plan.planType}/dates`
-        );
-        expect(result.status).toEqual(401);
-    });
-
-    it('returns 400 when a non-token is sent', async () => {
-        const result = await supertest(app)
-            .get(`/plans/${plan.planType}/dates`)
-            .set('Authorization', `Bearer ${stringFactory()}`);
-        expect(result.status).toEqual(400);
-    });
-
-    it('returns 401 when a non-existent uuid is sent', async () => {
-        const result = await supertest(app)
-            .get(`/plans/${plan.planType}/dates`)
-            .set('Authorization', `Bearer ${tokenFactory()}`);
-        expect(result.status).toEqual(401);
-    });
-
+describe('get /plans/:planType/dates', () => {
     it('returns 200 and delivery dates', async () => {
         const result = await supertest(app)
             .get(`/plans/${plan.planType}/dates`)
+            .set('Authorization', `Bearer ${token}`);
+        expect(result.status).toEqual(200);
+        expect(result.body.length).toEqual(1);
+    });
+});
+
+describe('get /plans/products', () => {
+    it('returns 200 and delivery dates', async () => {
+        const result = await supertest(app)
+            .get(`/plans/products`)
             .set('Authorization', `Bearer ${token}`);
         expect(result.status).toEqual(200);
         expect(result.body.length).toEqual(1);
