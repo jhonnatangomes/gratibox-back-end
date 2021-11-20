@@ -5,7 +5,11 @@ function planFactory() {
     return {
         planType: faker.random.alphaNumeric(10),
         deliveryDate: faker.datatype.string(),
-        products: faker.datatype.string(),
+        products: [
+            faker.datatype.string(),
+            faker.datatype.string(),
+            faker.datatype.string(),
+        ],
         deliveryInfo: {
             name: faker.datatype.string(),
             adress: faker.datatype.string(),

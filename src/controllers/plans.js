@@ -3,7 +3,7 @@ import validatePlan from '../validations/planValidation.js';
 import {
     getPlan,
     getDeliveryDate,
-    getProducts,
+    getProduct,
     createPlan,
     createPlanProducts,
 } from '../database/plans.js';
@@ -67,10 +67,13 @@ async function subscribeToPlan(req, res) {
         const planId = (await getPlan(req.body.planType)).rows[0].id;
         const deliveryDateId = (await getDeliveryDate(req.body.deliveryDate))
             .rows[0].id;
-        const productId = (await getProducts(req.body.products)).rows[0].id;
-
         await createPlan(userId, planId, deliveryDateId, adressId);
-        await createPlanProducts(userId, productId);
+
+        req.body.products.forEach(async (product) => {
+            const productId = (await getProduct(product)).rows[0].id;
+            await createPlanProducts(userId, productId);
+        });
+
         return res.send();
     } catch (error) {
         return databaseError(res, error);

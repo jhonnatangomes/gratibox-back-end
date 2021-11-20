@@ -42,7 +42,9 @@ beforeAll(async () => {
     await insertSession(userId, token);
     const planId = (await insertPlan(plan.planType)).rows[0].id;
     await insertDeliveryDate(planId, plan.deliveryDate);
-    await insertProducts(plan.products);
+    await insertProducts(plan.products[0]);
+    await insertProducts(plan.products[1]);
+    await insertProducts(plan.products[2]);
 });
 
 describe('post /plans', () => {
@@ -89,7 +91,9 @@ describe('post /plans', () => {
             state.rows[0].id
         );
         const planSearch = await getPlan(plan.planType);
-        const usersProducts = await getUsersProducts(plan.products);
+        const usersProducts = await getUsersProducts(plan.products[0]);
+        const usersProducts2 = await getUsersProducts(plan.products[1]);
+        const usersProducts3 = await getUsersProducts(plan.products[2]);
 
         expect(result.status).toEqual(200);
         expect(city.rows[0].name).toEqual(plan.deliveryInfo.city);
@@ -98,6 +102,8 @@ describe('post /plans', () => {
         expect(adress.rows[0].zipcode).toEqual(plan.deliveryInfo.zipcode);
         expect(planSearch.rowCount).toEqual(1);
         expect(usersProducts.rowCount).toEqual(1);
+        expect(usersProducts2.rowCount).toEqual(1);
+        expect(usersProducts3.rowCount).toEqual(1);
     });
 
     it('returns 200 and doesnt insert adress if it already exists', async () => {
