@@ -91,8 +91,12 @@ async function getUserPlan(req, res) {
         const token = req.headers.authorization?.replace('Bearer ', '');
         const userId = (await getUserIdByToken(token)).rows[0].id;
 
-        const productsResult = await getUserProducts(userId);
         const planResult = await getPlanInfo(userId);
+        if (!planResult.rowCount) {
+            return res.sendStatus(204);
+        }
+
+        const productsResult = await getUserProducts(userId);
         const nextDates = nextDeliveries(
             planResult.rows[0].delivery_date,
             planResult.rows[0].plan_type
