@@ -26,6 +26,7 @@ import stringFactory from './factories/stringFactory.js';
 
 const plan = realisticPlanFactory();
 const token = tokenFactory();
+let userId, planId, deliveryDateId, productId;
 
 afterAll(async () => {
     await clearDatabase();
@@ -36,7 +37,7 @@ beforeAll(async () => {
     await clearDatabase();
     const signUpBody = signUpFactory();
 
-    const userId = (
+    userId = (
         await insertUser(
             signUpBody.name,
             signUpBody.email,
@@ -44,28 +45,40 @@ beforeAll(async () => {
         )
     ).rows[0].id;
     await insertSession(userId, token);
-    const planId = (await insertPlan(plan.planType)).rows[0].id;
-    const deliveryDateId = (await insertDeliveryDate(planId, plan.deliveryDate))
+    planId = (await insertPlan(plan.planType)).rows[0].id;
+    deliveryDateId = (await insertDeliveryDate(planId, plan.deliveryDate))
         .rows[0].id;
-    const productId = (await insertProducts(plan.products[0])).rows[0].id;
-    const cityId = (await insertCity(plan.deliveryInfo.city)).rows[0].id;
-    const stateId = (await insertState(plan.deliveryInfo.state)).rows[0].id;
-    const adressId = (
-        await insertAdress(
-            plan.deliveryInfo.adress,
-            plan.deliveryInfo.zipcode,
-            cityId,
-            stateId
-        )
-    ).rows[0].id;
+    productId = (await insertProducts(plan.products[0])).rows[0].id;
 
     await insertProducts(plan.products[1]);
     await insertProducts(plan.products[2]);
-    await createPlan(userId, planId, deliveryDateId, adressId);
-    await createPlanProducts(userId, productId);
 });
 
 describe('get /plans', () => {
+    afterEach(async () => {
+        const cityId = (await insertCity(plan.deliveryInfo.city)).rows[0].id;
+        const stateId = (await insertState(plan.deliveryInfo.state)).rows[0].id;
+        const adressId = (
+            await insertAdress(
+                plan.deliveryInfo.adress,
+                plan.deliveryInfo.zipcode,
+                cityId,
+                stateId
+            )
+        ).rows[0].id;
+
+        await createPlan(userId, planId, deliveryDateId, adressId);
+        await createPlanProducts(userId, productId);
+    });
+
+    it('returns 204 and an empty string when there are no plans for that user', async () => {
+        const result = await supertest(app)
+            .get('/plans')
+            .set('Authorization', `Bearer ${token}`);
+        expect(result.status).toEqual(204);
+        expect(result.body).toEqual({});
+    });
+
     it('returns 401 when no token is sent', async () => {
         const result = await supertest(app).get('/plans');
         expect(result.status).toEqual(401);
