@@ -9,7 +9,7 @@ function insertPlan(planType) {
 
 function insertDeliveryDate(planId, deliveryDate) {
     return connection.query(
-        'INSERT INTO delivery_dates (plan_id, date) VALUES ($1, $2)',
+        'INSERT INTO delivery_dates (plan_id, date) VALUES ($1, $2) RETURNING id',
         [planId, deliveryDate]
     );
 }
