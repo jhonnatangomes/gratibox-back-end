@@ -11,7 +11,11 @@ import { deleteCities, deleteStates, deleteAdresses } from './adresses.js';
 import { deleteSessions } from './sessions.js';
 import { deleteUsers } from './users.js';
 
+import { deleteDeliveries, deleteComplaints } from './deliveries.js';
+
 export default async function clearDatabase() {
+    await deleteDeliveries();
+    await deleteComplaints();
     await deleteUsersPlans();
     await deleteUsersProducts();
     await deleteSessions();
