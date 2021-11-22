@@ -38,10 +38,28 @@ function deleteComplaints() {
     return connection.query('DELETE FROM complaints');
 }
 
+function getComplaintIdByName(complaintName) {
+    return connection.query('SELECT * FROM complaints WHERE name = $1', [
+        complaintName,
+    ]);
+}
+
+function updateDelivery(userId, date, review, complaintId, comments) {
+    return connection.query(
+        `
+        UPDATE deliveries SET review = $3, complaint_id = $4, comments = $5
+        WHERE user_id = $1 AND date = $2
+    `,
+        [userId, date, review, complaintId, comments]
+    );
+}
+
 export {
     getDeliveries,
     insertDelivery,
     insertComplaint,
     deleteComplaints,
     deleteDeliveries,
+    getComplaintIdByName,
+    updateDelivery,
 };
