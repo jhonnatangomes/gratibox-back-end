@@ -134,7 +134,7 @@ CREATE TABLE public.deliveries (
     user_id integer NOT NULL,
     date date NOT NULL,
     review boolean,
-    complaint_id integer NOT NULL,
+    complaint_id integer,
     comments text
 );
 
@@ -628,84 +628,84 @@ COPY public.users_products (id, user_id, product_id) FROM stdin;
 -- Name: adresses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.adresses_id_seq', 403, true);
+SELECT pg_catalog.setval('public.adresses_id_seq', 876, true);
 
 
 --
 -- Name: cities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cities_id_seq', 405, true);
+SELECT pg_catalog.setval('public.cities_id_seq', 878, true);
 
 
 --
 -- Name: complaints_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.complaints_id_seq', 1, false);
+SELECT pg_catalog.setval('public.complaints_id_seq', 416, true);
 
 
 --
 -- Name: deliveries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.deliveries_id_seq', 1, false);
+SELECT pg_catalog.setval('public.deliveries_id_seq', 1456, true);
 
 
 --
 -- Name: delivery_dates_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.delivery_dates_id_seq', 410, true);
+SELECT pg_catalog.setval('public.delivery_dates_id_seq', 566, true);
 
 
 --
 -- Name: plans_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.plans_id_seq', 432, true);
+SELECT pg_catalog.setval('public.plans_id_seq', 588, true);
 
 
 --
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.products_id_seq', 875, true);
+SELECT pg_catalog.setval('public.products_id_seq', 1343, true);
 
 
 --
 -- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.sessions_id_seq', 988, true);
+SELECT pg_catalog.setval('public.sessions_id_seq', 1433, true);
 
 
 --
 -- Name: states_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.states_id_seq', 405, true);
+SELECT pg_catalog.setval('public.states_id_seq', 878, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 1333, true);
+SELECT pg_catalog.setval('public.users_id_seq', 1857, true);
 
 
 --
 -- Name: users_plans_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_plans_id_seq', 641, true);
+SELECT pg_catalog.setval('public.users_plans_id_seq', 1192, true);
 
 
 --
 -- Name: users_products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_products_id_seq', 1393, true);
+SELECT pg_catalog.setval('public.users_products_id_seq', 2251, true);
 
 
 --

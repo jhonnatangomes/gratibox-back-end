@@ -134,7 +134,7 @@ CREATE TABLE public.deliveries (
     user_id integer NOT NULL,
     date date NOT NULL,
     review boolean,
-    complaint_id integer NOT NULL,
+    complaint_id integer,
     comments text
 );
 
