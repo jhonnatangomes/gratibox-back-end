@@ -98,6 +98,18 @@ function getPlanInfo(userId) {
     );
 }
 
+function deleteUserPlanById(userId) {
+    return connection.query('DELETE FROM users_plans WHERE user_id = $1', [
+        userId,
+    ]);
+}
+
+function deleteUserProductsById(userId) {
+    return connection.query('DELETE FROM users_products WHERE user_id = $1', [
+        userId,
+    ]);
+}
+
 export {
     insertPlan,
     insertDeliveryDate,
@@ -114,4 +126,6 @@ export {
     deleteUsersPlans,
     deleteUsersProducts,
     getPlanInfo,
+    deleteUserPlanById,
+    deleteUserProductsById,
 };
