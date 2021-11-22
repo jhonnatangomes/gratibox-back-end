@@ -31,7 +31,7 @@ Now, we're going to dump the two databases in the project: development database 
 
 Now, we need to create the .env files. Create .env, .env.development and .env.test in project root folder following the template in .env.example. Production database will run in .env, development will run in .env.development and test will run in .env.test.
 
-You can then run the project on each one of three databases you created. In order to run in production, do:
+You can then run the project on each one of the three databases you created. In order to run in production, do:
 
     npm run start
 
