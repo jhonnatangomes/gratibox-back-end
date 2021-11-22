@@ -31,13 +31,13 @@ async function postReview(req, res) {
     try {
         const token = req.headers.authorization?.replace('Bearer ', '');
         const complaintId = (await getComplaintIdByName(req.body.complaint))
-            .rows[0].id;
+            .rows[0]?.id;
         const userId = (await getUserIdByToken(token)).rows[0].id;
         await updateDelivery(
             userId,
             req.body.date,
             req.body.review,
-            complaintId,
+            complaintId || null,
             req.body.comments
         );
         return res.send();
