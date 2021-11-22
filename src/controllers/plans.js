@@ -8,6 +8,8 @@ import {
     createPlanProducts,
     getUserProducts,
     getPlanInfo,
+    deleteUserPlanById,
+    deleteUserProductsById,
 } from '../database/plans.js';
 import {
     getCity,
@@ -70,8 +72,14 @@ async function subscribeToPlan(req, res) {
         const planId = (await getPlan(req.body.planType)).rows[0].id;
         const deliveryDateId = (await getDeliveryDate(req.body.deliveryDate))
             .rows[0].id;
-        await createPlan(userId, planId, deliveryDateId, adressId);
 
+        const existingPlan = await getPlanInfo(userId);
+        if (existingPlan.rowCount) {
+            await deleteUserPlanById(userId);
+            await deleteUserProductsById(userId);
+        }
+
+        await createPlan(userId, planId, deliveryDateId, adressId);
         await Promise.all(
             req.body.products.map(async (product) => {
                 const productResult = await getProduct(product);

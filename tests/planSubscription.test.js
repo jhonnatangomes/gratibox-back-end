@@ -8,6 +8,7 @@ import {
     insertProducts,
     getPlan,
     getUserProducts,
+    getPlanInfo,
 } from '../src/database/plans.js';
 import { getCity, getState, getAdress } from '../src/database/adresses.js';
 import { insertUser } from '../src/database/users.js';
@@ -103,7 +104,7 @@ describe('post /plans', () => {
         expect(userProducts.rowCount).toEqual(3);
     });
 
-    it('returns 200 and doesnt insert adress if it already exists', async () => {
+    it('returns 200, doesnt insert adress if it already exists and substitutes existing plan', async () => {
         const result = await supertest(app)
             .post('/plans')
             .send(plan)
@@ -117,9 +118,12 @@ describe('post /plans', () => {
             city.rows[0].id,
             state.rows[0].id
         );
+        const planInfo = await getPlanInfo(userId);
+
         expect(result.status).toEqual(200);
         expect(city.rowCount).toEqual(1);
         expect(state.rowCount).toEqual(1);
         expect(adress.rowCount).toEqual(1);
+        expect(planInfo.rowCount).toEqual(1);
     });
 });
