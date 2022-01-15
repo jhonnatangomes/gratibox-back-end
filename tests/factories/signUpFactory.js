@@ -1,8 +1,7 @@
-import faker from 'faker';
-faker.locale = 'pt_BR';
+import faker from 'faker-br';
 
 export default function signUpFactory() {
-    const password = faker.datatype.string();
+    const password = faker.random.word();
     return {
         name: faker.name.findName(),
         email: faker.internet.email(),

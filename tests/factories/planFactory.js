@@ -1,5 +1,4 @@
-import faker from 'faker';
-faker.locale = 'pt_BR';
+import faker from 'faker-br';
 
 function planFactory() {
     return {
@@ -22,15 +21,15 @@ function planFactory() {
 
 function incorrectPlanFactory() {
     return {
-        planType: faker.datatype.number(),
-        deliveryDate: faker.datatype.uuid(),
-        products: faker.datatype.array(),
+        planType: faker.random.number(),
+        deliveryDate: faker.random.uuid(),
+        products: faker.random.arrayElement(),
         deliveryInfo: {
-            name: faker.datatype.boolean(),
-            adress: faker.datatype.datetime(),
-            zipcode: faker.datatype.float(),
-            city: faker.datatype.hexaDecimal(),
-            state: faker.datatype.string(),
+            name: faker.random.boolean(),
+            adress: faker.random.word(),
+            zipcode: faker.random.float(),
+            city: faker.random.hexaDecimal(),
+            state: faker.random.word(),
         },
     };
 }
@@ -57,11 +56,11 @@ function realisticPlanFactory() {
             faker.random.alphaNumeric(10),
         ],
         deliveryInfo: {
-            name: faker.datatype.boolean(),
-            adress: faker.datatype.datetime(),
-            zipcode: faker.datatype.float(),
-            city: faker.datatype.hexaDecimal(),
-            state: faker.datatype.string(),
+            name: faker.random.boolean(),
+            adress: faker.random.word(),
+            zipcode: faker.random.float(),
+            city: faker.random.hexaDecimal(),
+            state: faker.random.word(),
         },
     };
 }

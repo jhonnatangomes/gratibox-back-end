@@ -1,6 +1,5 @@
-import faker from 'faker';
-faker.locale = 'pt_BR';
+import faker from 'faker-br';
 
 export default function stringFactory() {
-	return faker.datatype.string();
+    return faker.random.word();
 }

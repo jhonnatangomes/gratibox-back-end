@@ -1,6 +1,5 @@
-import faker from 'faker';
-faker.locale = 'pt_BR';
+import faker from 'faker-br';
 
 export default function tokenFactory() {
-    return faker.datatype.uuid();
+    return faker.random.uuid();
 }

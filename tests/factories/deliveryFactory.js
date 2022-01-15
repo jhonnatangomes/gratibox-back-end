@@ -1,5 +1,4 @@
-import faker from 'faker';
-faker.locale = 'pt_BR';
+import faker from 'faker-br';
 
 function deliveryFactory(userId, complaintId) {
     return {
@@ -22,9 +21,9 @@ function reviewFactory() {
 
 function incorrectReviewFactory() {
     return {
-        date: faker.datatype.string(),
+        date: faker.random.word(),
         review: faker.random.alphaNumeric(10),
-        complaint: faker.datatype.number(),
+        complaint: faker.random.number(),
         comments: null,
     };
 }
