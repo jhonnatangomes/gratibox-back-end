@@ -1,6 +1,5 @@
-import faker from 'faker';
+import faker from 'faker-br';
 import bcrypt from 'bcrypt';
-faker.locale = 'pt_BR';
 
 function emailFactory() {
     return faker.internet.email();

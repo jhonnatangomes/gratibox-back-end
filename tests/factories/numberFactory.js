@@ -1,6 +1,5 @@
-import faker from 'faker';
-faker.locale = 'pt_BR';
+import faker from 'faker-br';
 
 export default function numberFactory() {
-	return faker.datatype.number();
+    return faker.random.number();
 }
